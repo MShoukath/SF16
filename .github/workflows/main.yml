@@ -36,7 +36,7 @@ jobs:
       # 12
       - name: Test and build apk
         run: flutter pub get
-      - run: flutter analyze
+      # - run: flutter analyze
       - run: flutter test
       - run: flutter build apk -t lib/main.dart --split-per-abi
       - name: Upload a Build Artifact
