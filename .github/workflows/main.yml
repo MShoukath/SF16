@@ -46,6 +46,7 @@ jobs:
           token: ${{ secrets.TOKEN }}
 
 
+
       # Runs a set of commands using the runners shell
       - name: Start release build
         run: flutter build appbundle
