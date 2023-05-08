@@ -7,6 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartfueling/screens/login_screen.dart';
 // import 'package:smartfueling/screens/signup_screen.dart';
 import 'package:smartfueling/screens/user_profile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:smartfueling/services/directions_api.dart';
 import 'package:smartfueling/widgets/trip.dart';
 import './widgets/location.dart';
@@ -54,9 +56,28 @@ class _HomePageState extends State<HomePage> {
   final Set<Polyline> _polylines = {};
   final Set<Marker> _markers = {};
   // Set<Marker> _mapMarkers = {};
-  Widget gasList = const SizedBox(
-    height: 0,
-  );
+  Widget gasList = const SizedBox(height: 0);
+
+  String fuelLeft = "0";
+  Color fuelColor = Colors.black;
+  Timer? _debounce;
+
+  void fuelLevel() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 3000), () {
+      DatabaseReference ref = FirebaseDatabase.instance.ref("Sensor/FuelLevel");
+      ref.onValue.listen((event) {
+        setState(() {
+          fuelLeft = event.snapshot.value.toString();
+          if (double.parse(fuelLeft) < 2) {
+            fuelColor = Colors.red;
+          } else {
+            fuelColor = Colors.black;
+          }
+        });
+      });
+    });
+  }
 
   setMarkerCallback(
       {LatLng markerPosition = const LatLng(13.0827, 80.2707),
@@ -152,9 +173,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     })),
               )
-            : SizedBox(
-                height: 0,
-              );
+            : const SizedBox(height: 0);
       } else if (markerType == 'from') {
         fromLocation = markerPosition;
         fromLocationSelected = markerVisible;
@@ -271,7 +290,7 @@ class _HomePageState extends State<HomePage> {
       accuracy: LocationAccuracy.high,
       distanceFilter: 40,
     );
-
+    fuelLevel();
     Geolocator.getPositionStream(locationSettings: locationSettings)
         .listen((Position? position) {
       position ?? const LatLng(13.0827, 80.2707);
@@ -324,11 +343,15 @@ class _HomePageState extends State<HomePage> {
               Locate(
                 setMarker: setMarkerCallback,
                 userLocation: currentUserLocation,
+                currentRange: (double.parse(fuelLeft) * 25000).round(),
               ),
               Column(
                 children: [
                   gasList,
-                  Metrics(),
+                  Metrics(
+                    fuelColor: fuelColor,
+                    fuelLeft: double.parse(fuelLeft),
+                  ),
                 ],
               ),
             ],
