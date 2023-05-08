@@ -95,9 +95,9 @@ class RouteSegment {
   bool refueled = false;
   RouteSegment({
     required this.startPoint,
-    LatLng1? endPoint,
+    LatLng1? endyPoint,
   }) {
-    endPoint = endPoint ?? startPoint!;
+    endPoint = endyPoint ?? startPoint!;
     bounds = LatLngBounds1(
         northeast: LatLng1(startPoint!.latitude, startPoint!.longitude),
         southwest: LatLng1(startPoint!.latitude, startPoint!.longitude));
@@ -254,6 +254,9 @@ class MapServices {
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     // print(response.body);
+    if (json['status'] == 'OVER_QUERY_LIMIT') {
+      throw Exception('OVER_QUERY_LIMIT');
+    }
     var results = {
       'origins': json['origin_addresses'],
       'destinations': json['destination_addresses'],
@@ -438,7 +441,8 @@ class MapServices {
             print(
                 'no gas stations found, backtracking to $box, current range: $currentRange, dist covered: $distCovered, segment size: $segmentSize');
             if (box < 0 || boxes[box].refueled) {
-              return {'status': 'Route not possible'};
+              throw Exception('Route not possible');
+              // return {'status': 'Route not possible'};
             }
             continue;
           }
@@ -464,7 +468,8 @@ class MapServices {
             print(
                 'backtrack to box $box, currentRange $currentRange, dist $distCovered, segmentSize $segmentSize');
             if (box < 0 || boxes[box].refueled) {
-              return {'status': 'Route not possible'};
+              throw Exception('Route not possible');
+              // return {'status': 'Route not possible'};
             }
             continue;
           }

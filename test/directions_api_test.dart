@@ -8,7 +8,7 @@ main() {
           54233);
     });
     var route =
-        RouteSegment(startPoint: LatLng1(13, 81), endPoint: LatLng1(13, 82));
+        RouteSegment(startPoint: LatLng1(13, 81), endyPoint: LatLng1(13, 82));
     test('Routesegment contains test', () {
       expect(route.contains(LatLng1(13, 81)), true);
     } //);
