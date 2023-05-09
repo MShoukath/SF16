@@ -9,15 +9,11 @@ class Trip extends StatefulWidget {
 }
 
 class _TripState extends State<Trip> {
-  final userStream = FirebaseFirestore.instance
-      .collection("Users")
-      .doc("miGuCBf7WykNseRyKR38")
-      .collection("Trips")
-      .snapshots();
+  final userStream = FirebaseFirestore.instance.collection("Trips").snapshots();
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 400,
       child: StreamBuilder(
           stream: userStream,
           builder: (context, snapshot) {

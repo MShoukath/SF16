@@ -248,8 +248,13 @@ class _LocateState extends State<Locate> {
                                               CircularProgressIndicator()))));
                           try {
                             Map<String, dynamic> directions =
-                                await MapServices().getDirections(fromPosition,
-                                    toPosition, widget.currentRange, 250000);
+                                await MapServices().getDirections(
+                                    fromPosition,
+                                    toPosition,
+                                    widget.currentRange == 0
+                                        ? 30000
+                                        : widget.currentRange,
+                                    250000);
                             print(directions);
                             widget.setMarker(directionsResponse: directions);
                             Navigator.pop(context);
