@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smartfueling/main.dart';
+// import 'package:smartfueling/main.dart';
 import 'package:smartfueling/screens/login_screen.dart';
 import 'package:smartfueling/widgets/trip.dart';
 
@@ -53,9 +53,9 @@ class _UserProfileState extends State<UserProfile> {
             stream: users,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                return Text('Connection error');
+                return const Text('Connection error');
               } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text('Loading......');
+                return const Text('Loading......');
               } else {
                 var docs = snapshot.data!.docs;
                 mileage = docs[0]['mileage'];
@@ -63,38 +63,38 @@ class _UserProfileState extends State<UserProfile> {
                 return ListView(
                   children: [
                     ListTile(
-                      leading: Icon(Icons.account_circle_outlined),
+                      leading: const Icon(Icons.account_circle_outlined),
                       title: Text('User Name : $name'),
                     ),
                     ListTile(
-                      leading: Icon(Icons.email_outlined),
+                      leading: const Icon(Icons.email_outlined),
                       title: Text('EmailID : $email'),
                     ),
                     ListTile(
-                      leading: Icon(Icons.gas_meter_outlined),
+                      leading: const Icon(Icons.gas_meter_outlined),
                       title: Text('Mileage : $mileage'),
                     ),
                     ListTile(
-                      leading: Icon(Icons.local_gas_station_outlined),
+                      leading: const Icon(Icons.local_gas_station_outlined),
                       title: Text('Tank Capacity : $tankCapacity'),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton.icon(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignInScreen()));
+                                  builder: (context) => const SignInScreen()));
                         },
-                        icon: Icon(Icons.logout_outlined),
-                        label: Text('Logout')),
-                    SizedBox(
+                        icon: const Icon(Icons.logout_outlined),
+                        label: const Text('Logout')),
+                    const SizedBox(
                       height: 10,
                     ),
                     Card(
                         elevation: 6,
-                        child: Column(children: [
+                        child: Column(children: const [
                           Text(
                             'History of Trips',
                             style: TextStyle(fontSize: 20),

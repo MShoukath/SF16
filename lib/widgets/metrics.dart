@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Metrics extends StatefulWidget {
   late final double fuelLeft;
@@ -20,7 +16,7 @@ class _MetricsState extends State<Metrics> {
   // Color color = Colors.black;
   int mileage = 0;
   int range = 0;
-
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -30,31 +26,31 @@ class _MetricsState extends State<Metrics> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Column(children: [
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Row(
                 children: [
-                  Icon(Icons.route_outlined),
+                  const Icon(Icons.route_outlined),
                   Text('${(widget.fuelLeft * 25).round()}Km',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black)),
                 ],
               ),
-              Text('Estimated Range'),
-              SizedBox(height: 5),
+              const Text('Estimated Range'),
+              const SizedBox(height: 5),
             ]),
             Column(children: [
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Row(
                 children: [
-                  Icon(Icons.local_gas_station_outlined),
+                  const Icon(Icons.local_gas_station_outlined),
                   FutureBuilder(
                       future: Firebase.initializeApp(),
                       builder: ((BuildContext context, snapshot) {
                         print(snapshot);
                         if (snapshot.hasError) {
-                          return Text("Error");
+                          return const Text("Error");
                         } else if (snapshot.hasData) {
                           return Text(
                             "${widget.fuelLeft} L",
@@ -64,7 +60,7 @@ class _MetricsState extends State<Metrics> {
                                 color: widget.fuelColor),
                           );
                         } else {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                       })),
                 ],
@@ -72,7 +68,7 @@ class _MetricsState extends State<Metrics> {
               const Text(
                 'Fuel Level',
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
             ])
           ],
         ),

@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfueling/main.dart';
 import 'package:smartfueling/screens/signup_screen.dart';
@@ -59,6 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         .hasMatch(value!)) {
                       return 'Enter Correct email';
                     }
+                    return null;
                   }),
               const SizedBox(height: 10),
               TextFormField(
@@ -77,6 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   if (value!.length < 6) {
                     return 'Password must be more than 6 characters';
                   }
+                  return null;
                 },
               ),
               ElevatedButton(
@@ -88,11 +90,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     try {
                       await FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: _userEmail.text, password: _userPassword.text);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ));
+                      if (context.mounted) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ));
+                      }
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                       } else if (e.code == 'wrong-password') {}

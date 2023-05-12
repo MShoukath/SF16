@@ -261,18 +261,22 @@ class MapServices {
       'origins': json['origin_addresses'],
       'destinations': json['destination_addresses'],
       'distances': json['rows'].map((row) {
-        if (row['elements'] != null)
+        if (row['elements'] != null) {
           return row['elements'].map((element) {
-            if (element['distance'] != null)
+            if (element['distance'] != null) {
               return element['distance']['value'];
+            }
           }).toList();
+        }
       }).toList(),
       'durations': json['rows'].map((row) {
-        if (row['elements'] != null)
+        if (row['elements'] != null) {
           return row['elements'].map((element) {
-            if (element['duration_in_traffic'] != null)
+            if (element['duration_in_traffic'] != null) {
               return element['duration_in_traffic']['value'];
+            }
           }).toList();
+        }
       }).toList(),
     };
     // print(results);
@@ -441,7 +445,7 @@ class MapServices {
             print(
                 'no gas stations found, backtracking to $box, current range: $currentRange, dist covered: $distCovered, segment size: $segmentSize');
             if (box < 0 || boxes[box].refueled) {
-              throw Exception('Route not possible');
+              throw Exception('Gas stations not found within segment');
               // return {'status': 'Route not possible'};
             }
             continue;
@@ -468,7 +472,7 @@ class MapServices {
             print(
                 'backtrack to box $box, currentRange $currentRange, dist $distCovered, segmentSize $segmentSize');
             if (box < 0 || boxes[box].refueled) {
-              throw Exception('Route not possible');
+              throw Exception('Gas Stations not found within range');
               // return {'status': 'Route not possible'};
             }
             continue;

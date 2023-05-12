@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:smartfueling/main.dart';
+// import 'package:smartfueling/main.dart';
 import 'package:smartfueling/screens/login_screen.dart';
 //import 'package:user_auth/screens/home_screen.dart';
 import 'package:smartfueling/widgets/logo.dart';
@@ -51,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Logo(),
+              const Logo(),
               const Text(
                 'Sign Up',
                 style: TextStyle(
@@ -75,6 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         .hasMatch(value!)) {
                       return 'Enter Correct email';
                     }
+                    return null;
                   },
                   controller: _userEmail,
                   keyboardType: TextInputType.emailAddress,
@@ -94,6 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value!.length < 6) {
                       return 'Password must be more than 6 characters';
                     }
+                    return null;
                   },
                   obscureText: true,
                   controller: _userPassword,
@@ -141,15 +143,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       }
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignInScreen()));
+                      if (context.mounted) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignInScreen()));
+                      }
                     } on FirebaseAuthException catch (e) {
                       print(e.code);
                     }
                   },
-                  child: Text('Sign Up')),
+                  child: const Text('Sign Up')),
             ],
           ),
         ),

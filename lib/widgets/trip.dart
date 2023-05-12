@@ -18,9 +18,9 @@ class _TripState extends State<Trip> {
           stream: userStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Connection error');
+              return const Text('Connection error');
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('Loading......');
+              return const Text('Loading......');
             } else {
               var docs = snapshot.data!.docs;
               return ListView.builder(

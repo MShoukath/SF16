@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:smartfueling/screens/login_screen.dart';
+// import 'package:smartfueling/screens/login_screen.dart';
 // import 'package:smartfueling/screens/signup_screen.dart';
 import 'package:smartfueling/screens/user_profile.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:smartfueling/services/directions_api.dart';
-import 'package:smartfueling/widgets/trip.dart';
+// import 'package:smartfueling/services/directions_api.dart';
+// import 'package:smartfueling/widgets/trip.dart';
 import './widgets/location.dart';
 import './widgets/metrics.dart';
 
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Smart Fueling',
-      home: HomePage(),
+      home: const HomePage(),
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
@@ -114,6 +114,7 @@ class _HomePageState extends State<HomePage> {
                 BitmapDescriptor.hueRed)));
 
         gasList = directionsResponse['gasStations'] != null
+            // ignore: sized_box_for_whitespace
             ? Container(
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: DraggableScrollableSheet(
@@ -302,7 +303,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     // finalController.dispose();
     super.dispose();
   }
@@ -316,8 +316,10 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserProfile()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserProfile()));
                 },
                 icon: const Icon(Icons.account_circle_rounded))
           ],

@@ -236,14 +236,14 @@ class _LocateState extends State<Locate> {
                           showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (context) => AlertDialog(
+                              builder: (context) => const AlertDialog(
                                   // The background color
                                   backgroundColor: Colors.white,
                                   title: Text('Loading...'),
-                                  content: Container(
+                                  content: SizedBox(
                                       height: 100,
                                       width: 100,
-                                      child: const Center(
+                                      child: Center(
                                           child:
                                               CircularProgressIndicator()))));
                           try {
@@ -257,14 +257,15 @@ class _LocateState extends State<Locate> {
                                     250000);
                             print(directions);
                             widget.setMarker(directionsResponse: directions);
-                            Navigator.pop(context);
-                            showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('${directions['status']}'),
-                                    content: Text('''
+                            if (context.mounted) Navigator.pop(context);
+                            if (context.mounted) {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('${directions['status']}'),
+                                      content: Text('''
 Total Fuel Stops : ${directions['Fuel Stop Count'] ?? 0}
 Travel Distance: ${directions['distance'] ?? 0}Km
 Travel Time: ${directions['duration'] ?? 0}
@@ -272,21 +273,22 @@ Initial Travel Distance: ${directions['orignalDistance'] ?? 0}Km
 Initial Travel time: ${directions['orignalDuration'] ?? 0}
 Current Range:  ${widget.currentRange ~/ 1000}Km
 Full Tank Range: ${250}Km '''),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('OK'))
-                                    ],
-                                  );
-                                });
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('OK'))
+                                      ],
+                                    );
+                                  });
+                            }
                           } catch (e) {
                             Navigator.pop(context);
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                      title: Text('Error'),
+                                      title: const Text('Error'),
                                       content: Text(
                                           'An exception $e occured while getting directions. Please try again later.'),
                                       actions: [
